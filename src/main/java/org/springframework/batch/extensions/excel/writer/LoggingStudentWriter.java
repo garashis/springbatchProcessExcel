@@ -19,11 +19,11 @@ public class LoggingStudentWriter implements ItemWriter<StudentEntity> {
     private StudentRepo studentRepo;
 
     @Override
-    public void write(List<? extends StudentEntity> studentEntities) throws Exception {
+    public void write(List<? extends StudentEntity> studentEntities) {
         LOGGER.info("Received the information of {} students", studentEntities.size());
 
         ExecutionContext stepContext = stepExecution.getExecutionContext();
-        if(stepContext.containsKey("lastSavedStudent")){
+        if (stepContext.containsKey("lastSavedStudent")) {
             LOGGER.info("Found Last Saved Student : " + stepContext.get("lastSavedStudent"));
         } else {
             LOGGER.info("Not Found Last Saved Student");

@@ -2,13 +2,10 @@ package org.springframework.batch.extensions.excel.config;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.extensions.excel.RowMapper;
 import org.springframework.batch.extensions.excel.domain.StudentEntity;
 import org.springframework.batch.extensions.excel.dto.StudentDTO;
@@ -19,20 +16,16 @@ import org.springframework.batch.extensions.excel.writer.LoggingStudentWriter;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 
 @Configuration
 public class ExcelFileToDatabaseJobConfig {
 
-    private static final String PROPERTY_EXCEL_SOURCE_FILE_PATH = "excel.to.database.job.source.file.path";
-
     @Bean
-    ItemReader<StudentDTO> excelStudentReader(Environment environment) {
+    ItemReader<StudentDTO> excelStudentReader() {
         PoiItemReader<StudentDTO> reader = new PoiItemReader<>();
         reader.setLinesToSkip(1);
         reader.setResource(new ClassPathResource("students.xlsx"));
@@ -95,7 +88,7 @@ public class ExcelFileToDatabaseJobConfig {
         System.out.println("promotionListener ->>>>>>>>");
         ExecutionContextPromotionListener listener = new ExecutionContextPromotionListener();
 
-        listener.setKeys(new String[] {"lastSavedStudent"});
+        listener.setKeys(new String[]{"lastSavedStudent"});
 
         return listener;
     }
