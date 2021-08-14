@@ -7,6 +7,17 @@ public class StudentEntity {
     @Id @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     private String emailAddress;
+
+    @Override
+    public String toString() {
+        return "StudentEntity{" +
+                "id=" + id +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", name='" + name + '\'' +
+                ", purchasedPackage='" + purchasedPackage + '\'' +
+                '}';
+    }
+
     private String name;
     private String purchasedPackage;
 
