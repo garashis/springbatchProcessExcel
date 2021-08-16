@@ -8,11 +8,14 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
+import org.springframework.batch.extensions.excel.repository.RepoForMultipleTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +31,7 @@ public class BatchController {
     @Qualifier("excelFileToDatabaseJob")
     private Job excelFileToDatabaseJob;
 
+    @Autowired private RepoForMultipleTable repoForMultipleTable;
 
     @GetMapping(path = "/personUpdateJob")
     public ResponseEntity<String> startBatch() {
@@ -43,9 +47,10 @@ public class BatchController {
         return new ResponseEntity<>("Batch Process started!!", HttpStatus.OK);
     }
 
-    //+447775447307 - Ashish Garg
-    @GetMapping(path = "/excelFileToDatabaseJob")
-    public ResponseEntity<String> student() {
+    @GetMapping(path = "/excelFileToDatabaseJob/{id}")
+    public ResponseEntity<String> student(@PathVariable int id) {
+        System.out.println(repoForMultipleTable.getDataFromMultipleTables(id));
+
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("startAt", System.currentTimeMillis()).toJobParameters();
         try {
