@@ -85,7 +85,6 @@ public class ExcelFileToDatabaseJobConfig {
 
     @Bean
     public ExecutionContextPromotionListener promotionListener() {
-        System.out.println("+447775447307 ashishg.garg@gmail.com");
         ExecutionContextPromotionListener listener = new ExecutionContextPromotionListener();
 
         listener.setKeys(new String[]{"lastSavedStudent"});
